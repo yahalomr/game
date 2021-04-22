@@ -5,23 +5,26 @@ import java.util.List;
 
 import com.flolive.models.DataFromOpentDbService;
 import com.flolive.models.DataFromOpentTriviaQuestion;
+import com.flolive.models.GameManagerObject;
 import com.flolive.models.TriviaAnswers;
 import com.flolive.models.TriviaBoardAnswers;
 import com.flolive.models.TriviaQuestion;
-import com.flolive.models.TriviaQuestionGame;
 import com.flolive.models.TriviaQuestionList;
 
 public class Parser {
 
+	private com.flolive.models.GameManagerForBoard GameManagerForBoard = new com.flolive.models.GameManagerForBoard();
 	private TriviaBoardAnswers triviaBoardAnswers;
-	private TriviaQuestionGame triviaQuestionGame;
+	private TriviaQuestionList triviaQuestionList;
 	
 	public Parser() {
 		triviaBoardAnswers = new TriviaBoardAnswers();
-		triviaQuestionGame = new TriviaQuestionGame();
+		triviaQuestionList = new TriviaQuestionList();
 	}
 	
-	public void parse(DataFromOpentDbService data, int boardId){
+	public GameManagerObject parse(DataFromOpentDbService data, int boardId){
+		
+		GameManagerObject gameManagerObject = new GameManagerObject();
 		TriviaQuestionList questionList = new TriviaQuestionList();
 		List<TriviaAnswers> answerList = new ArrayList<TriviaAnswers>();
 		for(DataFromOpentTriviaQuestion question: data.getTriviaListQuestions()) {
@@ -29,8 +32,13 @@ public class Parser {
 			populateTriviaAnswers(answerList, question);
 			
 		}
-		this.triviaBoardAnswers.getMap().put(boardId, answerList);
-		this.triviaQuestionGame.getMap().put(boardId, questionList);
+		this.triviaBoardAnswers.getList().addAll(answerList);
+		this.triviaQuestionList.setList(questionList.getList());
+		
+		gameManagerObject.setTriviaBoardAnswers(triviaBoardAnswers);
+		gameManagerObject.setTriviaQuestionList(triviaQuestionList);
+		
+		return gameManagerObject;
 	}
 	
 	private void populateTriviaAnswers(List<TriviaAnswers> answerList, DataFromOpentTriviaQuestion question) {
@@ -47,12 +55,6 @@ public class Parser {
 		questionList.getList().add(triviaQuestion);
 	}
 
-//	
-//	public Object parse(Object Obj) {
-//		return null;
-//	}
-//	
-
 	public TriviaBoardAnswers getTriviaBoardAnswers() {
 		return triviaBoardAnswers;
 	}
@@ -61,12 +63,4 @@ public class Parser {
 		this.triviaBoardAnswers = triviaBoardAnswers;
 	}
 
-	public TriviaQuestionGame getTriviaQuestionGame() {
-		return triviaQuestionGame;
-	}
-
-	public void setTriviaQuestionGame(TriviaQuestionGame triviaQuestionGame) {
-		this.triviaQuestionGame = triviaQuestionGame;
-	}
-	
 }

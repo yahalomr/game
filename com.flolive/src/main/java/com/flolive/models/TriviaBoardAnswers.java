@@ -1,21 +1,27 @@
 package com.flolive.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
 
-@Scope("singelton")
+//@Scope("singelton")
 public class TriviaBoardAnswers {
 
-	private Map<Integer,List<TriviaAnswers>> map;
+	private List<TriviaAnswers> list;
 
 	public TriviaBoardAnswers() {
-		this.map  = new HashMap<Integer, List<TriviaAnswers>>();
+		this.list = new ArrayList<TriviaAnswers>();
 	}
-	public Map<Integer,List<TriviaAnswers>> getMap() {
-		return map;
+	public List<TriviaAnswers> getList() {
+		return list;
 	}
+
+	public void setList(List<TriviaAnswers> list) {
+		this.list = list;
+	}
+
 
 }

@@ -30,9 +30,9 @@ public class Competitives {
 		}
 	}
 	
-	public void updateScoreOfUserName(int gameId, String userName,int score ) {
+	public void updateScoreOfUserName(int boardId, String userName,int score ) {
 		//Competitive competitive = new Competitive(0, userName); 
-		List<Competitive> list = userNameList.get(gameId);
+		List<Competitive> list = userNameList.get(boardId);
 		if(list!=null) {
 			for(Competitive comp:list) {
 				if(userName.equals(comp.getUser().getUserName())) {
