@@ -11,7 +11,6 @@ import com.manager.GameManager;
 public class TriviaServiceImpl{
 
 	private GameManager gameManager = new GameManager(new QuestionProvider());
-//	private Parser parser = new Parser();
 
 	public boolean checkAnswer(int boardId, int questionId,int answerId) {
 		return gameManager.checkAnswer(this.gameManager.getGameManagerForBoard().getMap().get(boardId).getTriviaBoardAnswers(),
@@ -33,19 +32,10 @@ public class TriviaServiceImpl{
 		return this.gameManager.getGameManagerForBoard().getMap().get(boardId).getTriviaQuestionList();//();
 	}
 	
-	
-	
 
 	public int getStatus(int boardId, int questionId,int answerId) {
 		return gameManager.getStatus(this.gameManager.getGameManagerForBoard().getMap().get(boardId).getTriviaBoardAnswers(),
 				boardId, questionId, answerId);	
 	}
-	
-//	
-//	public DataFromOpentDbService createTriviaListQuestion() throws IOException {
-//		return getRandomQuestions();
-//		
-//	}	
-	
-	
+
 }

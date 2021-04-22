@@ -2,10 +2,8 @@ package com.flolive.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.context.annotation.Scope;
 
@@ -31,7 +29,7 @@ public class Competitives {
 	}
 	
 	public void updateScoreOfUserName(int boardId, String userName,int score ) {
-		//Competitive competitive = new Competitive(0, userName); 
+		
 		List<Competitive> list = userNameList.get(boardId);
 		if(list!=null) {
 			for(Competitive comp:list) {

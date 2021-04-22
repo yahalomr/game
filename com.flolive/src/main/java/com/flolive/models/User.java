@@ -1,5 +1,8 @@
 package com.flolive.models;
 
+import org.springframework.context.annotation.Scope;
+
+@Scope("prototype")
 public class User {
 	
 	private static Integer idx=0;

@@ -1,9 +1,9 @@
 package com.flolive.controllers;
 
-//import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,6 @@ import com.flolive.models.Competitives;
 import com.flolive.models.TriviaQuestion;
 import com.flolive.service.TriviaServiceImpl;
 
-//TODO chane int -> to long
 @RestController
 @RequestMapping("api/game")
 public class GameController {
@@ -34,6 +33,15 @@ public class GameController {
 			createGameBoards(i);
 		
 	}
+	
+	//TODO-create object
+//	@CrossOrigin
+//	@PostMapping("/new/board")
+//	ResponseEntity<String> createBoard(@RequestBody Integer boardId) {
+//		createGameBoards(boardId);
+//		return ResponseEntity.ok("Create new board");
+//	 }
+//	
 	private void createGameBoards(int boardId) {
 		try {
 			this.triviaService.createQuestionBoard(boardId);
@@ -66,9 +74,9 @@ public class GameController {
 	 AnswerResponse answerQuestion(@RequestBody AnswerRequest questionRequest) {
 		 AnswerResponse questionResponse = new AnswerResponse();
 		 int boardId = questionRequest.getBoardId();
-		int questionId = questionRequest.getQuestionId();
-		int answerId = questionRequest.getAnswerId();
-		questionResponse.setAnswerStatus(this.triviaService.getStatus(boardId, questionId, answerId));
+		 int questionId = questionRequest.getQuestionId();
+		 int answerId = questionRequest.getAnswerId();
+		 questionResponse.setAnswerStatus(this.triviaService.getStatus(boardId, questionId, answerId));
 		 questionResponse.setPointsEarned(this.triviaService.earnedPoint(boardId, questionId, answerId));
 		 usersInTheGame.updateScoreOfUserName(boardId, questionRequest.getUserName(), questionResponse.getPointsEarned());
 		 return questionResponse;
@@ -83,7 +91,7 @@ public class GameController {
 	@GetMapping("/{boardId}/question/{questionId}")
 	public TriviaQuestion getQuestions(@PathVariable("questionId") int id ,
 			@PathVariable("boardId") int boardId) {
-		return this.triviaService.getQuestions(boardId).getList().get(id);//.getMap().get(gameId).getList().get(id);
+		return this.triviaService.getQuestions(boardId).getList().get(id);
 	}
 	
 

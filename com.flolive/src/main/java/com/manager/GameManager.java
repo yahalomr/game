@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 
-import com.flolive.models.DataFromOpentDbService;
+import com.flolive.consts.GameConsts;
 import com.flolive.models.GameManagerForBoard;
 import com.flolive.models.GameManagerObject;
 import com.flolive.models.TriviaAnswers;
@@ -13,9 +13,8 @@ import com.flolive.models.TriviaBoardAnswers;
 import com.flolive.question.provider.IQuestionProvider;
 
 @Scope("singelton")
-public class GameManager {
+public class GameManager implements GameConsts {
 
-//	private GameManagerObject gameManagerObject;
 	private GameManagerForBoard gameManagerForBoard;
 	public GameManagerForBoard getGameManagerForBoard() {
 		return gameManagerForBoard;
@@ -58,18 +57,18 @@ public class GameManager {
 
 	public int earnedPoint(TriviaBoardAnswers triviaBoardAnswers, int boardId, int questionId,int answerId) {
 		if(checkAnswer(triviaBoardAnswers, boardId, questionId, answerId)) {
-			return 10;
+			return CORRECT_ANSWER_POINTS;
 		}
-		return 0;
+		return IN_CORRECT_ANSWER_POINTS;
 		
 	}
 	
 
 	public int getStatus(TriviaBoardAnswers triviaBoardAnswers, int boardId, int questionId,int answerId) {
 		if(checkAnswer(triviaBoardAnswers, boardId, questionId, answerId)) {
-			return 0;
+			return CORRECT;
 		}
-		return 1;
+		return IN_CORRECT;
 		
 	}
 
