@@ -13,28 +13,42 @@ public class TriviaServiceImpl{
 	private GameManager gameManager = new GameManager(new QuestionProvider());
 
 	public boolean checkAnswer(int boardId, int questionId,int answerId) {
-		return gameManager.checkAnswer(this.gameManager.getGameManagerForBoard().getMap().get(boardId).getTriviaBoardAnswers(),
+		return gameManager.checkAnswer(getGameByBoardId(boardId).getTriviaBoardAnswers(),
 				boardId, questionId,answerId);
 	}
 	
 
-	public int earnedPoint(int boardId, int questionId,int answerId) {
-	
-		return gameManager.earnedPoint(this.gameManager.getGameManagerForBoard().getMap().get(boardId).getTriviaBoardAnswers(),
-				boardId, questionId, answerId);		
+	public Integer earnedPoint(int boardId, int questionId,int answerId) {
+		return gameManager.earnedPoint(getGameByBoardId(boardId).getTriviaBoardAnswers(),
+				boardId, questionId, answerId);
 	}
 	
-	public GameManagerObject createQuestionBoard(int boardId) throws IOException  {
+	public boolean createQuestionBoard(int boardId) throws IOException  {
 		return this.gameManager.createQuestionBoard(boardId);
 	}
 	
 	public TriviaQuestionList getQuestions(int boardId) {
-		return this.gameManager.getGameManagerForBoard().getMap().get(boardId).getTriviaQuestionList();//();
+		if(isGameByBoardIdExists(boardId)) {
+			return getGameByBoardId(boardId).getTriviaQuestionList();
+		}
+		return null;
+		
+	}
+
+
+	private GameManagerObject getGameByBoardId(int boardId) {
+		return this.gameManager.getGameManagerForBoard().getMap().get(boardId);
 	}
 	
+	private boolean isGameByBoardIdExists(int boardId) {
+		if(this.gameManager.getGameManagerForBoard().getMap().get(boardId)!=null) {
+			return true;
+		}
+		return false;
+	}
 
 	public int getStatus(int boardId, int questionId,int answerId) {
-		return gameManager.getStatus(this.gameManager.getGameManagerForBoard().getMap().get(boardId).getTriviaBoardAnswers(),
+		return gameManager.getStatus(getGameByBoardId(boardId).getTriviaBoardAnswers(),
 				boardId, questionId, answerId);	
 	}
 

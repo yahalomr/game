@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.flolive.models.AnswerRequest;
 import com.flolive.models.AnswerResponse;
+import com.flolive.models.BoardRequest;
 import com.flolive.models.Competitive;
 import com.flolive.models.Competitives;
 import com.flolive.models.TriviaQuestion;
+import com.flolive.models.TriviaQuestionList;
 import com.flolive.service.TriviaServiceImpl;
 
 @RestController
@@ -30,56 +32,59 @@ public class GameController {
 	GameController(){
 		this.triviaService = new TriviaServiceImpl();
 		for(int i =0 ;i<20;i++)
-			createGameBoards(i);
+			try {
+				createGameBoards(i);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 	}
 	
-	//TODO-create object
-//	@CrossOrigin
-//	@PostMapping("/new/board")
-//	ResponseEntity<String> createBoard(@RequestBody Integer boardId) {
-//		createGameBoards(boardId);
-//		return ResponseEntity.ok("Create new board");
-//	 }
-//	
-	private void createGameBoards(int boardId) {
+	@CrossOrigin
+	@PostMapping("/new/board")
+	ResponseEntity<String> createBoard(@RequestBody BoardRequest boardRequest) {
 		try {
-			this.triviaService.createQuestionBoard(boardId);
+			boolean isCreated = createGameBoards(boardRequest.getBoardId());
+			if(isCreated) {
+				return ResponseEntity.ok("Create new board");
+			}else {
+				return ResponseEntity.badRequest().body("failed in creation a new board");
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 		
-	}
-
-
-	//TODO -DELETE
-	@CrossOrigin
-	@GetMapping("/competitive")
-	public List<Competitive> getCompetitive(@RequestParam int boardId) {
-		return usersInTheGame.getUserNameList().get(boardId);
-	}
+	 }
 	
+	private boolean createGameBoards(int boardId) throws IOException {
+		return this.triviaService.createQuestionBoard(boardId);
+	}
+
 	@CrossOrigin
 	@GetMapping("/userName")
 	public String add(@RequestParam String userName, @RequestParam int boardId) {
 		usersInTheGame.addUserName(boardId ,userName);
-	//	scoreUsers.addCompetitive(Integer.valueOf(gameId) ,userName);
 		return userName;
 		
 	  }
 	
 	 @CrossOrigin
 	 @PostMapping("/answerQuestion")
-	 AnswerResponse answerQuestion(@RequestBody AnswerRequest questionRequest) {
+	 ResponseEntity<AnswerResponse> answerQuestion(@RequestBody AnswerRequest questionRequest) {
 		 AnswerResponse questionResponse = new AnswerResponse();
-		 int boardId = questionRequest.getBoardId();
-		 int questionId = questionRequest.getQuestionId();
-		 int answerId = questionRequest.getAnswerId();
-		 questionResponse.setAnswerStatus(this.triviaService.getStatus(boardId, questionId, answerId));
-		 questionResponse.setPointsEarned(this.triviaService.earnedPoint(boardId, questionId, answerId));
-		 usersInTheGame.updateScoreOfUserName(boardId, questionRequest.getUserName(), questionResponse.getPointsEarned());
-		 return questionResponse;
+		 try {
+			 int boardId = questionRequest.getBoardId();
+			 int questionId = questionRequest.getQuestionId();
+			 int answerId = questionRequest.getAnswerId();
+			 questionResponse.setAnswerStatus(this.triviaService.getStatus(boardId, questionId, answerId));
+			 questionResponse.setPointsEarned(this.triviaService.earnedPoint(boardId, questionId, answerId));
+			 usersInTheGame.updateScoreOfUserName(boardId, questionRequest.getUserName(), questionResponse.getPointsEarned());
+			 return ResponseEntity.ok(questionResponse);
+		 }catch (Exception e) {
+			 return ResponseEntity.badRequest().body(questionResponse);
+		}
+		 
 	  }
 	 
 
@@ -89,9 +94,17 @@ public class GameController {
 	}
 	
 	@GetMapping("/{boardId}/question/{questionId}")
-	public TriviaQuestion getQuestions(@PathVariable("questionId") int id ,
+	public ResponseEntity<TriviaQuestion> getQuestions(@PathVariable("questionId") int id ,
 			@PathVariable("boardId") int boardId) {
-		return this.triviaService.getQuestions(boardId).getList().get(id);
+		TriviaQuestion triviaQuestion = null;
+		TriviaQuestionList triviaQuestionList =  this.triviaService.getQuestions(boardId);
+		if(triviaQuestionList != null) {
+			triviaQuestion =triviaQuestionList.getList().get(id);
+			if(triviaQuestion !=null) {
+				return ResponseEntity.ok(triviaQuestion);
+			}
+		}
+		return ResponseEntity.badRequest().body(triviaQuestion);
 	}
 	
 

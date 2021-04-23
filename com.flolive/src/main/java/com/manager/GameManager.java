@@ -27,10 +27,13 @@ public class GameManager implements GameConsts {
 
 	private IQuestionProvider questionProvider;
 
-	public GameManagerObject createQuestionBoard(int boardId) throws IOException{
-		GameManagerObject gameManagerObject = questionProvider.getRandomQuestions(boardId);
-		gameManagerForBoard.getMap().put(boardId, gameManagerObject);
-		return gameManagerObject;
+	public boolean createQuestionBoard(int boardId) throws IOException{
+		if(gameManagerForBoard.getMap().get(boardId)==null) {
+			GameManagerObject gameManagerObject = questionProvider.getRandomQuestions(boardId);
+			gameManagerForBoard.getMap().put(boardId, gameManagerObject);
+			return true;
+		}
+		return false;
 	}
 	
 	public GameManager(IQuestionProvider questionProvider) {

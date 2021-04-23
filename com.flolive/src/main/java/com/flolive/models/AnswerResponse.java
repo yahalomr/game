@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 public class AnswerResponse {
 
 	private int answerStatus;
-	private int pointsEarned;
+	private Integer pointsEarned;
 	
 	public int getAnswerStatus() {
 		return answerStatus;
@@ -14,10 +14,10 @@ public class AnswerResponse {
 	public void setAnswerStatus(int answerStatus) {
 		this.answerStatus = answerStatus;
 	}
-	public int getPointsEarned() {
+	public Integer getPointsEarned() {
 		return pointsEarned;
 	}
-	public void setPointsEarned(int pointsEarned) {
+	public void setPointsEarned(Integer pointsEarned) {
 		this.pointsEarned = pointsEarned;
 	}
 	
