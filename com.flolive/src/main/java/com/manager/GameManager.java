@@ -5,17 +5,32 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.flolive.consts.GameConsts;
 import com.flolive.models.GameManagerForBoard;
 import com.flolive.models.GameManagerObject;
 import com.flolive.models.TriviaAnswers;
 import com.flolive.question.provider.IQuestionProvider;
+import com.flolive.question.provider.QuestionProvider;
 
-@Scope("singelton")
+/**
+ * manager of the game
+ */
+//@Scope("Singelton")
+@Component
 public class GameManager implements GameConsts {
 
 	private GameManagerForBoard gameManagerForBoard;
+	private IQuestionProvider questionProvider;
+//
+	@Autowired
+	public GameManager(IQuestionProvider questionProvider,
+			GameManagerForBoard gameManagerForBoard) {
+		this.questionProvider = questionProvider;
+		this.gameManagerForBoard = gameManagerForBoard;
+	}
+	
 	public GameManagerForBoard getGameManagerForBoard() {
 		return gameManagerForBoard;
 	}
@@ -23,9 +38,6 @@ public class GameManager implements GameConsts {
 	public void setGameManagerForBoard(GameManagerForBoard gameManagerForBoard) {
 		this.gameManagerForBoard = gameManagerForBoard;
 	}
-
-
-	private IQuestionProvider questionProvider;
 
 	public boolean createQuestionBoard(int boardId) throws IOException{
 		if(gameManagerForBoard.getMap().get(boardId)==null) {
@@ -36,11 +48,7 @@ public class GameManager implements GameConsts {
 		return false;
 	}
 	
-	@Autowired
-	public GameManager(IQuestionProvider questionProvider) {
-		this.questionProvider = questionProvider;
-		this.gameManagerForBoard = new GameManagerForBoard();
-	}
+	
 	
 	private boolean checkAnswer(
 			int boardId, int questionId,int answerId) {
@@ -53,7 +61,6 @@ public class GameManager implements GameConsts {
 					}else {
 						return false;
 					}
-				
 				}
 			}
 		}
@@ -64,6 +71,13 @@ public class GameManager implements GameConsts {
 		return gameManagerForBoard.getMap().get(boardId)!=null;
 	}
 
+	 /** get The point of the answer question 
+	 * @param boardId
+	 * @param questionId
+	 * @param answerId
+	 * @return CORRECT_ANSWER_POINTS - for correct answer
+	 * IN_CORRECT_ANSWER_POINTS - for incorrect answer 
+	 */
 	public int earnedPoint(int boardId, int questionId,int answerId) {
 		if(checkAnswer(boardId, questionId, answerId)) {
 			return CORRECT_ANSWER_POINTS;
@@ -72,7 +86,14 @@ public class GameManager implements GameConsts {
 		
 	}
 	
-
+	/**
+	 * get The status of the answer question
+	 * @param boardId
+	 * @param questionId
+	 * @param answerId
+	 * @return CORRECT - for correct answer
+	 * IN_CORRECT - for incorrect answer 
+	 */
 	public int getStatus(int boardId, int questionId,int answerId) {
 		if(checkAnswer(boardId, questionId, answerId)) {
 			return CORRECT;

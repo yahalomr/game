@@ -2,25 +2,27 @@ package com.flolive.service;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import com.flolive.models.GameManagerObject;
 import com.flolive.models.TriviaQuestionList;
 import com.flolive.question.provider.QuestionProvider;
 import com.manager.GameManager;
 
-
-public class TriviaServiceImpl{
+/**
+ * service of the game
+ */
+@Service
+public class TriviaServiceImpl implements TriviaService{
 
 	private GameManager gameManager;
 
-	public TriviaServiceImpl() {
-		gameManager = new GameManager(new QuestionProvider());
+	@Autowired
+	public TriviaServiceImpl(GameManager gameManager) {
+		this.gameManager = gameManager;//new GameManager(new QuestionProvider());
 	}
-//	
-//	public boolean checkAnswer(int boardId, int questionId,int answerId) {
-//		return gameManager.checkAnswer(getGameByBoardId(boardId).getTriviaBoardAnswers(),
-//				boardId, questionId,answerId);
-//	}
-	
 
 	public Integer earnedPoint(int boardId, int questionId,int answerId) {
 		return gameManager.earnedPoint(boardId, questionId, answerId);

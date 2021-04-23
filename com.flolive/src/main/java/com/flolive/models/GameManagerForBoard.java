@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-@Scope("singelton")
+//@Scope("singelton")
+@Component
 public class GameManagerForBoard {
 
 	private Map<Integer,GameManagerObject> map;

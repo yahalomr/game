@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.ValidationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,19 +31,23 @@ import com.flolive.service.TriviaServiceImpl;
 public class GameController {
 	
 	private TriviaServiceImpl triviaService;
-	private Competitives usersInTheGame = new Competitives();
+	private Competitives usersInTheGame;// = new Competitives();
 
-	GameController(){
-		this.triviaService = new TriviaServiceImpl();
-		for(int i =0 ;i<20;i++)
+	@Autowired
+	GameController(TriviaServiceImpl triviaService, 
+			Competitives usersInTheGame){
+		this.usersInTheGame= usersInTheGame;
+		this.triviaService = triviaService;// TriviaServiceImpl();
+		for(int i =0 ;i<20;i++) {
 			try {
 				createGameBoards(i);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+		}
 	}
+		
 	
 	@CrossOrigin
 	@PostMapping("/new/board")

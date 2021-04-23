@@ -3,6 +3,9 @@ package com.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.flolive.models.DataFromOpentDbService;
 import com.flolive.models.DataFromOpentTriviaQuestion;
 import com.flolive.models.GameManagerObject;
@@ -11,12 +14,13 @@ import com.flolive.models.TriviaBoardAnswers;
 import com.flolive.models.TriviaQuestion;
 import com.flolive.models.TriviaQuestionList;
 
-public class Parser {
+@Component
+public class GameManagerParser {
 
 	private TriviaBoardAnswers triviaBoardAnswers;
 	private TriviaQuestionList triviaQuestionList;
 	
-	public Parser() {
+	public GameManagerParser(){//TriviaBoardAnswers triviaBoardAnswers,TriviaQuestionList triviaQuestionList) {
 		triviaBoardAnswers = new TriviaBoardAnswers();
 		triviaQuestionList = new TriviaQuestionList();
 	}

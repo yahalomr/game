@@ -8,22 +8,40 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.flolive.models.DataFromOpentDbService;
 import com.flolive.models.DataFromOpentTriviaQuestion;
+import com.flolive.models.FooFormatter;
 import com.flolive.models.GameManagerObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.manager.Parser;
+import com.manager.GameManagerParser;
 
+/**
+ * QuestionProvider - call to opentdb API to get question for the game
+ */
 @Component
 public class QuestionProvider implements IQuestionProvider{
 
-	private Parser parser = new Parser();
+	
+	private GameManagerParser parser;//= new GameManagerParser();
+	
+	 @Autowired
+	 public QuestionProvider(GameManagerParser parser) {
+		 this.parser = parser;
+	 }
+
+	
+
+	/**
+	 * get random question from opentdb API
+	 * and return GameManagerObject object
+	 */
 	@Override
 	public GameManagerObject getRandomQuestions(int boardId) throws IOException {
 		DataFromOpentDbService triviaListQuestions = new DataFromOpentDbService();
@@ -60,7 +78,6 @@ public class QuestionProvider implements IQuestionProvider{
 			
 		}
 		in.close();
-	//	return triviaListQuestions;
 		return parser.parse(triviaListQuestions, boardId);
 	}
 

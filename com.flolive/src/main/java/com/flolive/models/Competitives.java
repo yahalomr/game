@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-@Scope("singleton")
+//@Scope("singleton")
+@Component
 public class Competitives {
 	
  	private Map<Integer, List<Competitive>> userNameList;
