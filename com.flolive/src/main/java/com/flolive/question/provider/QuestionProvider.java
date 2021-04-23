@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import com.flolive.models.DataFromOpentDbService;
 import com.flolive.models.DataFromOpentTriviaQuestion;
-import com.flolive.models.FooFormatter;
 import com.flolive.models.GameManagerObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

@@ -3,12 +3,10 @@ package com.flolive.service;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.flolive.models.GameManagerObject;
 import com.flolive.models.TriviaQuestionList;
-import com.flolive.question.provider.QuestionProvider;
 import com.manager.GameManager;
 
 /**

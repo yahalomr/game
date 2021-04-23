@@ -8,15 +8,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.flolive.controllers.GameController;
 
-//@SpringBootTest
+@SpringBootTest
 class GameApplicationTests {
 
-//	@Autowired
-//	GameController gameController;
-//	
-//	@Test
-//	void contextLoads() {
-//		assertNotNull(gameController);
-//	}
+	@Autowired
+	GameController gameController;
+	
+	@Test
+	void contextLoads() {
+		assertNotNull(gameController);
+	}
 
 }

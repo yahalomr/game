@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.flolive.consts.GameConsts;
@@ -12,18 +11,16 @@ import com.flolive.models.GameManagerForBoard;
 import com.flolive.models.GameManagerObject;
 import com.flolive.models.TriviaAnswers;
 import com.flolive.question.provider.IQuestionProvider;
-import com.flolive.question.provider.QuestionProvider;
 
 /**
  * manager of the game
  */
-//@Scope("Singelton")
 @Component
 public class GameManager implements GameConsts {
 
 	private GameManagerForBoard gameManagerForBoard;
 	private IQuestionProvider questionProvider;
-//
+
 	@Autowired
 	public GameManager(IQuestionProvider questionProvider,
 			GameManagerForBoard gameManagerForBoard) {

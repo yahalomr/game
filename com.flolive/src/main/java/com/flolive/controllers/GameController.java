@@ -31,23 +31,15 @@ import com.flolive.service.TriviaServiceImpl;
 public class GameController {
 	
 	private TriviaServiceImpl triviaService;
-	private Competitives usersInTheGame;// = new Competitives();
+	private Competitives usersInTheGame;
 
 	@Autowired
 	GameController(TriviaServiceImpl triviaService, 
 			Competitives usersInTheGame){
 		this.usersInTheGame= usersInTheGame;
-		this.triviaService = triviaService;// TriviaServiceImpl();
-		for(int i =0 ;i<20;i++) {
-			try {
-				createGameBoards(i);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-		
+		this.triviaService = triviaService;
+		createBoards();
+	}	
 	
 	@CrossOrigin
 	@PostMapping("/new/board")
@@ -74,25 +66,19 @@ public class GameController {
 	public String add(@RequestParam String userName, @RequestParam int boardId) {
 		usersInTheGame.addUserName(boardId ,userName);
 		return userName;
-		
-	  }
+	}
 	
 	 @CrossOrigin
 	 @PostMapping("/answerQuestion")
 	 ResponseEntity<AnswerResponse> answerQuestion(@RequestBody AnswerRequest questionRequest) {
 		 AnswerResponse questionResponse = new AnswerResponse();
-		 try {
-			 int boardId = questionRequest.getBoardId();
-			 int questionId = questionRequest.getQuestionId();
-			 int answerId = questionRequest.getAnswerId();
-			 questionResponse.setAnswerStatus(this.triviaService.getStatus(boardId, questionId, answerId));
-			 questionResponse.setPointsEarned(this.triviaService.earnedPoint(boardId, questionId, answerId));
-			 usersInTheGame.updateScoreOfUserName(boardId, questionRequest.getUserName(), questionResponse.getPointsEarned());
-			 return ResponseEntity.ok(questionResponse);
-		 }catch (Exception e) {
-			 return ResponseEntity.badRequest().body(questionResponse);
-		}
-		 
+		 int boardId = questionRequest.getBoardId();
+		 int questionId = questionRequest.getQuestionId();
+		 int answerId = questionRequest.getAnswerId();
+		 questionResponse.setAnswerStatus(this.triviaService.getStatus(boardId, questionId, answerId));
+		 questionResponse.setPointsEarned(this.triviaService.earnedPoint(boardId, questionId, answerId));
+		 usersInTheGame.updateScoreOfUserName(boardId, questionRequest.getUserName(), questionResponse.getPointsEarned());
+		 return ResponseEntity.ok(questionResponse);	 
 	  }
 	 
 
@@ -112,7 +98,7 @@ public class GameController {
 				return ResponseEntity.ok(triviaQuestion);
 			}
 		}
-		else throw new ValidationException("can't get the question");// Throw ResponseEntity.badRequest().body(triviaQuestion);
+		else throw new ValidationException("can't get the question");
 		return null;
 	}
 	
@@ -121,5 +107,14 @@ public class GameController {
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 	
-
+	private void createBoards() {
+		for(int i =0 ;i<20;i++) {
+			try {
+				createGameBoards(i);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
