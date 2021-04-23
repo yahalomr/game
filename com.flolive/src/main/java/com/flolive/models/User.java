@@ -1,8 +1,10 @@
 package com.flolive.models;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Scope("prototype")
+@Component
 public class User {
 	
 	private static Integer idx=0;

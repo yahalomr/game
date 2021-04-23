@@ -1,5 +1,8 @@
 package com.flolive.models;
 
+import org.springframework.context.annotation.Scope;
+
+@Scope("request")
 public class BoardRequest {
 
 	private int boardId;

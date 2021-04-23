@@ -1,11 +1,7 @@
 package com.flolive.models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.context.annotation.Scope;
 
 //@Scope("singelton")
 public class TriviaBoardAnswers {

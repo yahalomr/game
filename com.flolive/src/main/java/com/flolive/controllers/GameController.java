@@ -3,8 +3,11 @@ package com.flolive.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import javax.xml.bind.ValidationException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -95,7 +98,7 @@ public class GameController {
 	
 	@GetMapping("/{boardId}/question/{questionId}")
 	public ResponseEntity<TriviaQuestion> getQuestions(@PathVariable("questionId") int id ,
-			@PathVariable("boardId") int boardId) {
+			@PathVariable("boardId") int boardId) throws ValidationException {
 		TriviaQuestion triviaQuestion = null;
 		TriviaQuestionList triviaQuestionList =  this.triviaService.getQuestions(boardId);
 		if(triviaQuestionList != null) {
@@ -104,7 +107,13 @@ public class GameController {
 				return ResponseEntity.ok(triviaQuestion);
 			}
 		}
-		return ResponseEntity.badRequest().body(triviaQuestion);
+		else throw new ValidationException("can't get the question");// Throw ResponseEntity.badRequest().body(triviaQuestion);
+		return null;
+	}
+	
+	@ExceptionHandler(ValidationException.class)
+	ResponseEntity<String> exceptionHandler(ValidationException e){
+		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 	
 

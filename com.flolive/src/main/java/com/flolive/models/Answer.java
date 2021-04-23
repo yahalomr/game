@@ -1,5 +1,8 @@
 package com.flolive.models;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Answer {
 
 	private int idx;

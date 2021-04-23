@@ -3,13 +3,13 @@ package com.manager;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import com.flolive.consts.GameConsts;
 import com.flolive.models.GameManagerForBoard;
 import com.flolive.models.GameManagerObject;
 import com.flolive.models.TriviaAnswers;
-import com.flolive.models.TriviaBoardAnswers;
 import com.flolive.question.provider.IQuestionProvider;
 
 @Scope("singelton")
@@ -36,30 +36,36 @@ public class GameManager implements GameConsts {
 		return false;
 	}
 	
+	@Autowired
 	public GameManager(IQuestionProvider questionProvider) {
 		this.questionProvider = questionProvider;
 		this.gameManagerForBoard = new GameManagerForBoard();
 	}
 	
-	public boolean checkAnswer(TriviaBoardAnswers triviaBoardAnswers,
+	private boolean checkAnswer(
 			int boardId, int questionId,int answerId) {
-//		List<TriviaAnswers> list = triviaBoardAnswers.getMap().get(boardId);
-		List<TriviaAnswers> list = gameManagerForBoard.getMap().get(boardId).getTriviaBoardAnswers().getList();
-		for(TriviaAnswers triviaAnswer: list) {
-			if(triviaAnswer.getQuestionId()==questionId) {
-				if(triviaAnswer.getCorrectAnswerID() == answerId) {
-					return true;
-				}else {
-					return false;
+		if(isBoardExists(boardId)) {
+			List<TriviaAnswers> list = gameManagerForBoard.getMap().get(boardId).getTriviaBoardAnswers().getList();
+			for(TriviaAnswers triviaAnswer: list) {
+				if(triviaAnswer.getQuestionId()==questionId) {
+					if(triviaAnswer.getCorrectAnswerID() == answerId) {
+						return true;
+					}else {
+						return false;
+					}
+				
 				}
-			
 			}
 		}
 		return false;
 	}
 
-	public int earnedPoint(TriviaBoardAnswers triviaBoardAnswers, int boardId, int questionId,int answerId) {
-		if(checkAnswer(triviaBoardAnswers, boardId, questionId, answerId)) {
+	private boolean isBoardExists(int boardId) {
+		return gameManagerForBoard.getMap().get(boardId)!=null;
+	}
+
+	public int earnedPoint(int boardId, int questionId,int answerId) {
+		if(checkAnswer(boardId, questionId, answerId)) {
 			return CORRECT_ANSWER_POINTS;
 		}
 		return IN_CORRECT_ANSWER_POINTS;
@@ -67,8 +73,8 @@ public class GameManager implements GameConsts {
 	}
 	
 
-	public int getStatus(TriviaBoardAnswers triviaBoardAnswers, int boardId, int questionId,int answerId) {
-		if(checkAnswer(triviaBoardAnswers, boardId, questionId, answerId)) {
+	public int getStatus(int boardId, int questionId,int answerId) {
+		if(checkAnswer(boardId, questionId, answerId)) {
 			return CORRECT;
 		}
 		return IN_CORRECT;

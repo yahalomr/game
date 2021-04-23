@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.flolive.models.DataFromOpentDbService;
 import com.flolive.models.DataFromOpentTriviaQuestion;
 import com.flolive.models.GameManagerObject;
@@ -18,6 +20,7 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.manager.Parser;
 
+@Component
 public class QuestionProvider implements IQuestionProvider{
 
 	private Parser parser = new Parser();

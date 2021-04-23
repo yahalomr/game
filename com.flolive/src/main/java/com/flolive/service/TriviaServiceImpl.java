@@ -10,17 +10,20 @@ import com.manager.GameManager;
 
 public class TriviaServiceImpl{
 
-	private GameManager gameManager = new GameManager(new QuestionProvider());
+	private GameManager gameManager;
 
-	public boolean checkAnswer(int boardId, int questionId,int answerId) {
-		return gameManager.checkAnswer(getGameByBoardId(boardId).getTriviaBoardAnswers(),
-				boardId, questionId,answerId);
+	public TriviaServiceImpl() {
+		gameManager = new GameManager(new QuestionProvider());
 	}
+//	
+//	public boolean checkAnswer(int boardId, int questionId,int answerId) {
+//		return gameManager.checkAnswer(getGameByBoardId(boardId).getTriviaBoardAnswers(),
+//				boardId, questionId,answerId);
+//	}
 	
 
 	public Integer earnedPoint(int boardId, int questionId,int answerId) {
-		return gameManager.earnedPoint(getGameByBoardId(boardId).getTriviaBoardAnswers(),
-				boardId, questionId, answerId);
+		return gameManager.earnedPoint(boardId, questionId, answerId);
 	}
 	
 	public boolean createQuestionBoard(int boardId) throws IOException  {
@@ -48,7 +51,7 @@ public class TriviaServiceImpl{
 	}
 
 	public int getStatus(int boardId, int questionId,int answerId) {
-		return gameManager.getStatus(getGameByBoardId(boardId).getTriviaBoardAnswers(),
+		return gameManager.getStatus(
 				boardId, questionId, answerId);	
 	}
 

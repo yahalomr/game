@@ -13,12 +13,10 @@ import com.flolive.models.TriviaQuestionList;
 
 public class Parser {
 
-	//private GameManagerForBoard gameManagerForBoard;// = new com.flolive.models.GameManagerForBoard();
 	private TriviaBoardAnswers triviaBoardAnswers;
 	private TriviaQuestionList triviaQuestionList;
 	
 	public Parser() {
-		//gameManagerForBoard = new GameManagerForBoard();
 		triviaBoardAnswers = new TriviaBoardAnswers();
 		triviaQuestionList = new TriviaQuestionList();
 	}
