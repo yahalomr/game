@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.flolive.models.DataFromOpentDbService;
@@ -29,6 +30,8 @@ public class QuestionProvider implements IQuestionProvider{
 
 	
 	private GameManagerParser parser;//= new GameManagerParser();
+	@Value("${opentdb_url}")
+	private String url;
 	
 	 @Autowired
 	 public QuestionProvider(GameManagerParser parser) {
@@ -45,7 +48,7 @@ public class QuestionProvider implements IQuestionProvider{
 	public GameManagerObject getRandomQuestions(int boardId) throws IOException {
 		DataFromOpentDbService triviaListQuestions = new DataFromOpentDbService();
 		
-		URL url = new URL("https://opentdb.com/api.php?amount=10&type=multiple");
+		URL url = new URL(this.url);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
 		String response;
