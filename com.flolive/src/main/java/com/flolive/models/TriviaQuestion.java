@@ -2,6 +2,9 @@ package com.flolive.models;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+
+@Scope("prototype")
 public class TriviaQuestion {
 	private Question question;
 	private List<Answer> answers;

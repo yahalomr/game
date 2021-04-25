@@ -3,6 +3,9 @@ package com.flolive.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+
+@Scope("prototype")
 public class DataFromOpentDbService {
 	private List<DataFromOpentTriviaQuestion> triviaListQuestions;
 

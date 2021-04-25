@@ -1,5 +1,8 @@
 package com.flolive.models;
 
+import org.springframework.context.annotation.Scope;
+
+@Scope("prototype")
 public class TriviaAnswers {
 	
 	private int questionId;

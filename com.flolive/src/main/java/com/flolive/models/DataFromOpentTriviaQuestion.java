@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.context.annotation.Scope;
+
+@Scope("prototype")
 public class DataFromOpentTriviaQuestion {
 	
 	private Question question;

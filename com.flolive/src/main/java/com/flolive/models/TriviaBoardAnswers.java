@@ -3,10 +3,11 @@ package com.flolive.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-//@Scope("singelton")
 @Component
+@Scope("prototype")
 public class TriviaBoardAnswers {
 
 	private List<TriviaAnswers> list;

@@ -63,9 +63,11 @@ public class GameController {
 
 	@CrossOrigin
 	@GetMapping("/userName")
-	public String add(@RequestParam String userName, @RequestParam int boardId) {
-		usersInTheGame.addUserName(boardId ,userName);
-		return userName;
+	public  ResponseEntity<String> add(@RequestParam String userName, @RequestParam int boardId) {
+		if(usersInTheGame.addUserName(boardId ,userName)) {
+			return ResponseEntity.ok(userName);	
+		}else 
+		return ResponseEntity.badRequest().body(" Can't add " + userName);
 	}
 	
 	 @CrossOrigin

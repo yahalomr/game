@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-//@Scope("singleton")
 @Component
 public class Competitives {
 	
@@ -18,16 +16,32 @@ public class Competitives {
 		userNameList = new HashMap<Integer, List<Competitive>>();
 	}
 
-	public void addUserName(int boardId, String userName) {
+	public boolean addUserName(int boardId, String userName) {
 		Competitive competitive = new Competitive(0, userName); 
 		List<Competitive> list = userNameList.get(boardId);
 		if(list!=null) {
-			list.add(competitive);
+			if( isUserNameExists(userName, list)) {
+				return false;
+			}
+			else {
+				list.add(competitive);
+			}
 		}else {
 			list =new ArrayList<Competitive>();
 			list.add(competitive);
 			this.userNameList.put(boardId,list);
 		}
+		return true;
+	}
+
+	private boolean isUserNameExists(String userName, List<Competitive> list) {
+		for(Competitive comp : list) {
+			if(userName.equals(comp.getUser().getUserName())) {
+				return true;
+			}
+			
+		}
+		return false;
 	}
 	
 	public void updateScoreOfUserName(int boardId, String userName,int score ) {
